@@ -1,8 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var User = require('../models/user'),
+var express = require('express'),
 jwt = require('jsonwebtoken'),
-jwtsecret="SADFKLJETQ543934JKEFMLSDAFMASDGJ45";
+
+User = require('../models/user'),
+UserController = require('../controllers/user'),
+config = require('../../config'),
+
+router = express.Router();
 
 router
 .post('/login',function(req, res) {
@@ -23,9 +26,9 @@ router
 				});
 			}
 		}
-		var token = jwt.sign({email:user.email},
-			jwtsecret, {
-			expiresInMinutes: 2880 // expires in 2 Days
+		var token = jwt.sign({id:user._id},
+			config.secret, {
+			expiresIn: 172800 // expires in 2 Days
 		});
 		res.json({
 			success: true,
@@ -34,22 +37,7 @@ router
 		});
 	});
 })
-.post('/register',function(req,res){
-	var user = new User();
-	user.name = req.body.name;
-	user.email = req.body.email;
-	user.username = req.body.username;
-	user.password = req.body.password;
-	user.save(function(err) {
-	if (err) {
-		if (err.code == 11000)
-		return res.json({ success: false, message: 'A user with that username or email already exists. '});
-		else
-		return res.send(err);
-	}
-	res.json({ message: 'Registered!, Now Login to get started' });
-	});
-})
+.post('/register',UserController.save)
 .get('/', function(req, res, next) {
   res.json({ message: 'welcome to our api!' });
 });
