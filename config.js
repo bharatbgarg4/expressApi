@@ -1,6 +1,6 @@
 var config = {
 	db:'mongodb://localhost/expressApi',
-	port:process.env.PORT || 8080,
+	port:3038,
 	secret:'SADFKLJETQ543934JKEFMLSDAFMASDGJ45',
 }
 

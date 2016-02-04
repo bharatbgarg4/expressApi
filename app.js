@@ -18,8 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(Header);
 
-app.use('/users', usersRoute);
-app.use('/', indexRoute);
+app.use('/api/users', usersRoute);
+app.use('/api', indexRoute);
 
 app.listen(config.port);
 console.log('Api live on '+config.port);
